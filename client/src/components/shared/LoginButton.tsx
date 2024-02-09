@@ -1,13 +1,14 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 
 function LoginButton() {
   return (
-    <a href="/login">
+    
+    <Link to="/auth/login">
       <Button className="flex items-center justify-center px-5 h-12 text-xl border-3 border-[#10217d] bg-[#10217d] text-white rounded-sm">
         Login
       </Button>
-    </a>
+    </Link>
   );
 }
 export default LoginButton;

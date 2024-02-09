@@ -1,17 +1,17 @@
 import OurServices from "@/components/home/OurServices";
-import Layout from "../components/Layout";
+import HomeLayout from "../components/HomeLayout";
 import Hero from "@/components/home/Hero";
 import Footer from "@/components/home/Footer";
 
 function Home() {
   return (
-    <Layout>
+    <HomeLayout>
       <div>
         <Hero />
         <OurServices />
         <Footer />
       </div>
-    </Layout>
+    </HomeLayout>
   );
 }
 

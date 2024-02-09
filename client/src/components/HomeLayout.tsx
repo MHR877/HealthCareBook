@@ -5,7 +5,7 @@ interface Props {
     children : React.ReactElement;
 }
 
-function Layout({children} : Props) {
+function HomeLayout({children} : Props) {
   return (
     <main className="">
         <NavBar />
@@ -17,4 +17,4 @@ function Layout({children} : Props) {
   )
 }
 
-export default Layout
+export default HomeLayout

@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Footer() {
   return (
     <footer className='h-[100px] bg-[#10217d] p-6 flex items-center justify-center'>

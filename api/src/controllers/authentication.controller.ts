@@ -3,14 +3,10 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { promisify } from "util";
 
-import {
-  IUser,
-  User,
-  getUsers,
-} from "../module/user.schema";
+import { IUser, User, getUsers } from "../module/user.schema";
 import AppError from "./../utils/appError";
 import catchAsync from "./../utils/catchAsync";
-import Email  from "./../utils/email";
+import Email from "./../utils/email";
 
 const signToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
@@ -43,6 +39,7 @@ const createSendToken = (
     token,
     data: {
       user,
+      
     },
   });
 };
@@ -65,21 +62,35 @@ export const getAllUsers = async (
 };
 
 export const register = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
-  });
+  let newUser;
+  const { type } = req.body;
+  if (type == "patient") {
+    newUser = await User.create({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+      type: req.body.type,
+    });
+  } else {
+    newUser = await User.create({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+      type: req.body.type,
+      doctor: req.body.doctor,
+    });
+  }
+  console.log("User : " , newUser);
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(newUser, url).sendWelcome();
-
-  console.log(newUser);
+  // const url = `${req.protocol}://${req.get("host")}/me`;
+  // await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, req, res);
 });
-
 
 export const login = catchAsync(
   async (
@@ -226,17 +237,16 @@ export const forgotPassword = catchAsync(
       const resetURL = `${req.protocol}://${req.get(
         "host"
       )}/api/v1/users/resetPassword/${resetToken}`;
-      console.log(new Email(user , resetURL));
-      
+      console.log(new Email(user, resetURL));
+
       await new Email(user, resetURL).sendPasswordReset();
 
-        console.log(resetToken);
-        
+      console.log(resetToken);
+
       res.status(200).json({
         status: "success",
         message: "Token sent to email!",
       });
-
     } catch (err) {
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
@@ -291,7 +301,6 @@ export const updatePassword = catchAsync(
   ) => {
     // @ts-ignore
 
-    
     // 1) Get user from collection
     // @ts-ignore
     const user = await User.findById(req.body._id).select("+password");

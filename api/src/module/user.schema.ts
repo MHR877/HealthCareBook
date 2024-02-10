@@ -4,10 +4,13 @@ import validator from "validator";
 import crypto from "crypto"
 
 export interface IUser extends Document {
-  username: string;
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
   passwordConfirm: string;
+  type?: "patient" | "doctor";
+  doctor: string;
   createdAt: Date;
   updatedAt: Date;
   passwordChangedAt: Date;
@@ -17,10 +20,15 @@ export interface IUser extends Document {
 }
 
 const userSchema = new Schema<IUser>({
-  username: {
+  firstname: {
     type: String,
-    required: [true, 'Please tell us your username!'],
-    unique: true,
+    required: [true, 'Please provide your First name'],
+    minlength: [2, 'First name must be at least 2 characters'],
+  },
+  lastname: {
+    type: String,
+    required: [true, 'Please provide your Last name'],
+    minlength: [2, 'Last name must be at least 2 characters'],
   },
   email: {
     type: String,
@@ -45,6 +53,12 @@ const userSchema = new Schema<IUser>({
       },
       message: "Passwords are not the same!",
     },
+  },
+  type: {
+    type: String,
+  },
+  doctor: {
+    type: String,
   },
   createdAt: {
     type: Date,

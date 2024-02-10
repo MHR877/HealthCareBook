@@ -12,13 +12,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
 import AuthLayout from "@/components/AuthLayout";
-import { Link } from "react-router-dom";
+import Loading from "@/components/shared/Loading";
+import { Input } from "@/components/ui/input";
+import useUserStore from "@/store/useUserStore";
 import axios from "axios";
 import { useState } from "react";
-import Loading from "@/components/shared/Loading";
-import useUserStore from "@/store/useUserStore";
+import { Link } from "react-router-dom";
 
 const formSchema = z.object({
   email: z.string().email("Must be an email."),
@@ -30,7 +30,7 @@ const formSchema = z.object({
 function Login() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const {setUser , user} = useUserStore(state => state)
+  const { setUser, user } = useUserStore((state) => state);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,16 +42,16 @@ function Login() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setError(false)
+      setError(false);
       setIsLoading(true);
       const req = await axios.post("http://localhost:3000/api/v1/login", {
         email: values.email,
         password: values.password,
       });
-      const {data} =  req;
-      const {user} = data.data
-      if(!user) throw new Error("The user not found")
-      
+      const { data } = req;
+      const { user } = data.data;
+      if (!user) throw new Error("The user not found");
+
       setUser(user);
     } catch (error) {
       setError(true);
@@ -61,7 +61,6 @@ function Login() {
     }
   }
   console.log(user);
-  
 
   return (
     <>
@@ -106,7 +105,7 @@ function Login() {
                 )}
               />
               <Button
-              disabled={isLoading}
+                disabled={isLoading}
                 type="submit"
                 className={`w-full bg-[#10217d] text-xl font-bold py-6 hover:bg-[#0b1b72] !mt-8 ${
                   error ? "bg-red-600 hover:bg-red-700" : ""

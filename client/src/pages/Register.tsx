@@ -22,7 +22,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import AuthLayout from "@/components/AuthLayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Loading from "@/components/shared/Loading";
@@ -47,6 +47,7 @@ function Register() {
   const [type, setType] = useState("patient");
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -88,6 +89,7 @@ function Register() {
       });      
 
       console.log(res);
+      navigate("/");
     } catch (error) {
       setError(true);
       console.error("Error:", error);

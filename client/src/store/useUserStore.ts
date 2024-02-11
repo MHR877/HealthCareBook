@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import Cookies from "js-cookie";
 
 interface User {
   _id: string;
@@ -7,25 +8,30 @@ interface User {
   email: string;
   type: string;
   doctor?: string;
-  updatedAt: Date
+  updatedAt: Date;
 }
 
 interface UserState {
-  user: User;
-  setUser: (value: User) => void;
+  user: User | null; 
+  setUser: (value: User | null) => void; 
 }
 
-const useUserStore = create<UserState>((set) => ({
-  user: {
-    _id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    type: "",
-    doctor: "",
-    updatedAt: new Date()
-  },
-  setUser: (value) => set(() => ({ user: value })),
-}));
+const useUserStore = create<UserState>((set) => {
+  const storedUser = Cookies.get("user");
+  const initialUser = storedUser ? JSON.parse(storedUser) : null;
+
+  return {
+    user: initialUser,
+    setUser: (value) => {
+      if (value) {
+        Cookies.set("user", JSON.stringify(value), { expires: 7 });
+      } else {
+        Cookies.remove("user");
+      }
+      set(() => ({ user: value }));
+    },
+  };
+});
+
 
 export default useUserStore;

@@ -13,9 +13,13 @@ import {
 } from "@/components/ui/form";
 
 import AuthLayout from "@/components/AuthLayout";
+<<<<<<< HEAD
 import Loading from "@/components/shared/Loading";
 import { Input } from "@/components/ui/input";
 import useUserStore from "@/store/useUserStore";
+=======
+import { Link, useNavigate } from "react-router-dom";
+>>>>>>> 661c861 (Add some things on the project)
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -30,7 +34,12 @@ const formSchema = z.object({
 function Login() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+<<<<<<< HEAD
   const { setUser, user } = useUserStore((state) => state);
+=======
+  const {setUser , user} = useUserStore(state => state);
+  const navigate = useNavigate()
+>>>>>>> 661c861 (Add some things on the project)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,6 +62,7 @@ function Login() {
       if (!user) throw new Error("The user not found");
 
       setUser(user);
+      navigate("/");
     } catch (error) {
       setError(true);
       console.error("Error:", error);

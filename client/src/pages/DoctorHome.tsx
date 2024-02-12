@@ -1,6 +1,8 @@
+import LogoutButton from "@/components/shared/LogoutButton"
+
 function DoctorHome() {
   return (
-    <div>DoctorHome</div>
+    <div><LogoutButton /></div>
   )
 }
 

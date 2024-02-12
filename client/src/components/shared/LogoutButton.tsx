@@ -4,7 +4,7 @@ import useUserStore from "@/store/useUserStore";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  style: string
+  style?: string
 }
 
 function LogoutButton({style} : Props) {

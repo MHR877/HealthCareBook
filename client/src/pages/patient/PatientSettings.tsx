@@ -1,17 +1,16 @@
 import PatientLayout from "@/components/PatientLayout";
+import Account from "@/components/Settings/Account";
+
 
 function PatientSettings() {
+  
+
   return (
     <PatientLayout>
-      <div>
+      <div> 
         <h1 className="text-4xl ">Settings</h1>
-        <div>
-          <div>
-            <div className="flex items-center gap-9">
-              <img src="/default.jpg" alt="default image" className="w-48" />
-              <div>Hello</div>
-            </div>
-          </div>
+        <div className="rounded-3xl border shadow-sm mt-12 px-9 py-6">
+          <Account />
         </div>
       </div>
     </PatientLayout>
